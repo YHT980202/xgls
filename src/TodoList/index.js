@@ -1,69 +1,69 @@
-import React, { Component,Fragment } from 'react'
+import React, { Component} from 'react'
+
+import TdoHeader from "./components/TdoHeader"
+import TdoInput from './components/Tdoinput'
+import TdoList from "./components/TdoList"
 
 class TodoList extends Component{
     constructor(){
         super();
         this.state={
-            inputText:"",
-            lists:[]
+            inputText:"adwd",
+            lists:[
+                {
+                    content:"的味道",
+                    isCompleted:false
+                }
+            ]
         }
-        this.addLists = this.addLists.bind(this);
     }
     render(){
-        return(
-            <Fragment>
-                <div className="header">
-                      <input value={this.state.inputText} onChange={this.changeText.bind(this)}></input>
-                      <button onClick={this.addLists}>增加备忘录</button>
-                </div>
-                <hr></hr>
-                <ul className="lists">
-                    {
-                        this.state.lists.map((el,index)=>{
-                            return (
-                                <li key={index}>
-                                    {el}
-                                    <button onClick={this.delItem.bind(this,index)}>S</button>
-                                </li>
-                            );
-                        })
-                    }
-                </ul>
-            </Fragment>
+        return (
+            <>
+                <TdoHeader
+                    title="待办事列表"
+                >
+                    今日重点
+                </TdoHeader>
+                <TdoInput 
+                    inputText={this.state.inputText}
+                    addList={this.addList.bind(this)}
+                    changeText={ this.changeText.bind(this) }
+                />
+                <TdoList 
+                    lists = { this.state.lists }
+                    delLists={ this.delLists.bind(this) }
+                />
+            </>
         )
     }
-
-
-    delItem(index){
-        let {lists} =this.state;
+    changeText(value){
+        // 输入数据
+        this.setState({
+            inputText : value
+        });
+        //将changeText组件的值赋给index的inputText
+    }
+    addList(content){
+        // 增加留言
+        this.setState({
+            lists:[
+                ...this.state.lists,
+                {
+                    content,
+                    isCompleted:false
+                }
+            ],
+            inputText:""
+        });
+    }
+    delLists(index){
+        let { lists } = this.state;
         lists.splice(index,1);
         this.setState({
             lists
-        })
-    }
-    changeText(e){
-        let target = e.target;
-        this.setState((prevVal,props)=>{
-            console.log(prevVal);//现在的state的值
-            console.log(props);//父组件传过来的值
-            return {
-                inputText:target.value
-            }
-        },()=>{
-            console.log(2,this.state);//现在的state的值
-        })
-        console.log(1,this.state)//无法获取最近的state setState是异步的
-    }
-    addLists(){
-        let {lists} = this.state;
-        lists.push(this.state.inputText);
-        this.setState({
-            lists,
-            inputText:""
         });
-        console.log(this.state.lists)
     }
 }
+
 export default TodoList;
-
-
