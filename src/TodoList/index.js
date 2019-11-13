@@ -51,7 +51,7 @@ class TodoList extends Component{
                 ...this.state.lists,
                 {
                     content,
-                    isCompleted:false
+                    isCompleted:true
                 }
             ],
             inputText:""
