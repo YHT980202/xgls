@@ -81,7 +81,15 @@ module.exports = function(proxy, allowedHost) {
       disableDotRule: true,
     },
     public: allowedHost,
-    proxy,
+    proxy:{
+      "/conner": {
+        "target": "https://api.it120.cc",
+        changeOrigin: true
+      },
+      "/foo": {
+        "target": "<other_url>"
+      }
+    },
     before(app, server) {
       if (fs.existsSync(paths.proxySetup)) {
         // This registers user provided middleware for proxy reasons
